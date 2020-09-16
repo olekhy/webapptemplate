@@ -1,0 +1,98 @@
+{
+  "name": "@PROJECT_NAME@/app",
+  "description": "@PROJECT_NAME@ Web / Rest API Projekt",
+  "license": "MIT",
+  "type": "project",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "apcu-autoloader": true,
+    "discard-changes": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "require": {
+    "php": "^7.4",
+    "ext-apcu": "*",
+    "ext-bcmath": "*",
+    "ext-ctype": "*",
+    "ext-dom": "*",
+    "ext-filter": "*",
+    "ext-gd": "*",
+    "ext-iconv": "*",
+    "ext-intl": "*",
+    "ext-json": "*",
+    "ext-libxml": "*",
+    "ext-mbstring": "*",
+    "ext-pdo": "*",
+    "aidphp/http": "dev-master",
+    "ajgl/composer-symlinker": "^0.2.1",
+    "aura/sql": "^3.0",
+    "nikic/fast-route": "^1.3",
+    "slim/php-view": "^2.2",
+    "swagger-api/swagger-ui": "^3.31"
+  },
+  "require-dev": {
+    "doctrine/coding-standard": "^7.0",
+    "ifsnop/mysqldump-php": "^2.9",
+    "phpstan/phpstan": "^0.12",
+    "phpstan/phpstan-deprecation-rules": "^0.12",
+    "phpstan/phpstan-doctrine": "^0.12",
+    "phpstan/phpstan-phpunit": "^0.12",
+    "phpstan/phpstan-strict-rules": "^0.12",
+    "phpstan/phpstan-symfony": "^0.12",
+    "phpstan/phpstan-webmozart-assert": "^0.12",
+    "phpunit/phpunit": "^9.1",
+    "roave/security-advisories": "dev-master",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "conflict": {
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+  },
+  "scripts": {
+    "cs-check": "phpcs -p --parallel=100",
+    "cs-fix": "phpcbf -p --parallel=100",
+    "pre-test": "php bin/recreate-test-db.php",
+    "test-all": "phpunit --colors=always tests",
+    "analyse": [
+      "phpstan analyse --configuration=phpstan.neon bin/ config/ public/ src/ tests/ --level max"
+    ],
+    "check": [
+      "@cs-check",
+      "@analyse",
+      "@test"
+    ],
+    "test": [
+      "@pre-test",
+      "@test-all"
+    ],
+    "publish-assets": [
+      "Ajgl\\Composer\\ScriptSymlinker::createSymlinks"
+    ],
+    "post-install-cmd": [
+      "@publish-assets"
+    ],
+    "post-update-cmd": [
+      "@publish-assets"
+    ]
+  },
+  "extra": {
+    "ajgl-symlinks": {
+      "swagger-api/swagger-ui": {
+        "dist": "public/bundles/swagger-api"
+      }
+    }
+  }
+}
