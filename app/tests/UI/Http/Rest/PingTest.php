@@ -11,7 +11,7 @@ final class PingTest extends RestTestCase
     /** @test */
     public function pingDerGesundheit() : void
     {
-        $uri      = '/app/ping';
+        $uri      = '/api/ping';
         $response = $this->restGetResponse($uri);
         self::assertSame(200, $response->getStatusCode());
         $json = (string) $response->getBody();
